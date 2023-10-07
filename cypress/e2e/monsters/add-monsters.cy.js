@@ -1,14 +1,12 @@
-/// <reference types="cypress" />
-
 import {homePage} from '../../support/pages/home';
 import {monster, defaultMonster} from '../../src/api/payloads/monsters-payload';
 
-describe('monster app', () => {
+describe('Monster App Tests', () => {
     beforeEach(() => {
         homePage.open('/');
     });
 
-    it('should add a new monster', () => {
+    it('should successfully add a new monster', () => {
         const newMonster = {...monster};
 
         homePage.fillMonsterForm(newMonster);
@@ -18,7 +16,30 @@ describe('monster app', () => {
         homePage.monsterCard.should('be.visible');
     });
 
-    it("should show an alert when monster doesn't have name", () => {
+    it('should favorite a monster and change its icon color to red', () => {
+        const newMonster = {...monster};
+
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
+
+        homePage.assertMonsterAdded();
+        homePage.monsterCard.should('be.visible');
+        homePage.favoriteMonster();
+        homePage.favoriteMonsterIcon.should('have.attr', 'style', 'color: red;');
+    });
+
+    it('should set the favorite monster icon color to black with 0.6 transparency', () => {
+        const newMonster = {...monster};
+
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
+
+        homePage.assertMonsterAdded();
+        homePage.monsterCard.should('be.visible');
+        homePage.favoriteMonsterIcon.should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
+    });
+
+    it('should display an alert when the monster has no name', () => {
         const newMonster = {...monster, name: ''};
         homePage.fillMonsterForm(newMonster);
         homePage.createMonster();
@@ -26,7 +47,7 @@ describe('monster app', () => {
         homePage.monsterCard.should('not.exist');
     });
 
-    it("should show an alert when monster doesn't have hp", () => {
+    it('should display an alert when the monster has no HP', () => {
         const newMonster = {...monster, hp: ''};
 
         homePage.fillMonsterForm(newMonster);
@@ -35,7 +56,7 @@ describe('monster app', () => {
         homePage.monsterCard.should('not.exist');
     });
 
-    it("should show an alert when monster doesn't have attack", () => {
+    it('should display an alert when the monster has no attack', () => {
         const newMonster = {...monster, attack: ''};
 
         homePage.fillMonsterForm(newMonster);
@@ -43,7 +64,8 @@ describe('monster app', () => {
         homePage.requiredFieldsAlert.should('contain.text', 'All fields are required');
         homePage.monsterCard.should('not.exist');
     });
-    it("should show an alert when monster doesn't have defense", () => {
+
+    it('should display an alert when the monster has no defense', () => {
         const newMonster = {...monster, defense: ''};
 
         homePage.fillMonsterForm(newMonster);
@@ -51,7 +73,8 @@ describe('monster app', () => {
         homePage.requiredFieldsAlert.should('contain.text', 'All fields are required');
         homePage.monsterCard.should('not.exist');
     });
-    it("should show an alert when monster doesn't have speed", () => {
+
+    it('should display an alert when the monster has no speed', () => {
         const newMonster = {...monster, speed: ''};
 
         homePage.fillMonsterForm(newMonster);
@@ -60,7 +83,7 @@ describe('monster app', () => {
         homePage.monsterCard.should('not.exist');
     });
 
-    it('should show an alert when monster has attributes equal 0', () => {
+    it('should display an alert when the monster has attributes equal to 0', () => {
         const newMonster = {...defaultMonster};
 
         homePage.fillMonsterForm(newMonster);
@@ -68,7 +91,7 @@ describe('monster app', () => {
         homePage.monsterCard.should('not.exist');
     });
 
-    it('should show an alert when monster has float attributes', () => {
+    it('should display an alert when the monster has float attributes', () => {
         const newMonster = {...monster, speed: '50.35'};
 
         homePage.fillMonsterForm(newMonster);
@@ -76,7 +99,7 @@ describe('monster app', () => {
         homePage.monsterCard.should('not.exist');
     });
 
-    it('should show an alert when monster has attributes equal 0', () => {
+    it('should display an alert when the monster has attributes equal to 0', () => {
         const newMonster = {...monster, hp: '0', attack: '0', defense: '0', speed: '0'};
 
         homePage.fillMonsterForm(newMonster);
@@ -84,7 +107,7 @@ describe('monster app', () => {
         homePage.monsterCard.should('not.exist');
     });
 
-    it('should show an alert when monster has attributes higher than 100', () => {
+    it('should display an alert when the monster has attributes higher than 100', () => {
         const newMonster = {...monster, speed: '101'};
 
         homePage.fillMonsterForm(newMonster);
@@ -92,7 +115,7 @@ describe('monster app', () => {
         homePage.monsterCard.should('not.exist');
     });
 
-    it('should add monster when it has attributes equal 100', () => {
+    it('should successfully add a monster when it has attributes equal to 100', () => {
         const newMonster = {...monster, speed: '100'};
 
         homePage.fillMonsterForm(newMonster);
@@ -100,30 +123,5 @@ describe('monster app', () => {
 
         homePage.assertMonsterAdded();
         homePage.monsterCard.should('be.visible');
-    });
-
-	it('should favorite a monster', () => {
-        const newMonster = {...monster};
-
-        homePage.fillMonsterForm(newMonster);
-        homePage.createMonster();
-
-        homePage.assertMonsterAdded();
-        homePage.monsterCard.should('be.visible');
-		homePage.favoriteMonster();
-		homePage.favoriteMonsterIcon.should('have.attr', 'style', 'color: red;');
-
-    });
-
-	it('new monster should have favorite color black with 0.6 transparency', () => {
-        const newMonster = {...monster};
-
-        homePage.fillMonsterForm(newMonster);
-        homePage.createMonster();
-
-        homePage.assertMonsterAdded();
-        homePage.monsterCard.should('be.visible');
-		homePage.favoriteMonsterIcon.should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
-
     });
 });
