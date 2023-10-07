@@ -36,7 +36,7 @@ export class HomePage extends BasePage {
   }
 
   createNewMonster(monster) {
-    this.monsterFigure("1").click();
+    if(monster.figure) this.monsterFigure(monster.figure).click();
     if(monster.name) this.monsterNameInput.type(monster.name);
     if(monster.hp) this.monsterHpValueInput.type(monster.hp);
     if(monster.attack) this.monsterAttackValueInput.type(monster.attack);

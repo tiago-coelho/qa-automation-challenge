@@ -1,4 +1,5 @@
 const monster = {
+  figure: "1",
   name: "QA",
   hp: "50",
   attack: "50",
