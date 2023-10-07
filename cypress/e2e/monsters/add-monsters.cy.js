@@ -1,70 +1,70 @@
 /// <reference types="cypress" />
 
-import { homePage } from "../../support/pages/home";
-import monster from "../../src/api/payloads/monsters-payload";
+import {homePage} from '../../support/pages/home';
+import {monster, defaultMonster} from '../../src/api/payloads/monsters-payload';
 
-describe("monster app", () => {
-  beforeEach(() => {
-    homePage.open("/");
-  });
+describe('monster app', () => {
+    beforeEach(() => {
+        homePage.open('/');
+    });
 
-  it("should add a new monster", () => {
-    const newMonster = { ...monster };
+    it('should add a new monster', () => {
+        const newMonster = {...monster};
 
-    homePage.createNewMonster(newMonster);
-    homePage.assertMonsterAdded();
-    homePage.monsterCard.should("be.visible");
-  });
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
 
-  it("should show an alert when monster doesn't have name", () => {
-    const newMonster = { ...monster, name: "" };
-    homePage.createNewMonster(newMonster);
-    homePage.requiredFieldsAlert.should(
-      "contain.text",
-      "All fields are required"
-    );
-    homePage.monsterCard.should("not.exist");
-  });
+        homePage.assertMonsterAdded();
+        homePage.monsterCard.should('be.visible');
+    });
 
-  it("should show an alert when monster doesn't have hp", () => {
-    const newMonster = { ...monster, hp: "" };
+    it("should show an alert when monster doesn't have name", () => {
+        const newMonster = {...monster, name: ''};
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
+        homePage.requiredFieldsAlert.should('contain.text', 'All fields are required');
+        homePage.monsterCard.should('not.exist');
+    });
 
-    homePage.createNewMonster(newMonster);
-    homePage.requiredFieldsAlert.should(
-      "contain.text",
-      "All fields are required"
-    );
-    homePage.monsterCard.should("not.exist");
-  });
+    it("should show an alert when monster doesn't have hp", () => {
+        const newMonster = {...monster, hp: ''};
 
-  it("should show an alert when monster doesn't have attack", () => {
-    const newMonster = { ...monster, attack: "" };
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
+        homePage.requiredFieldsAlert.should('contain.text', 'All fields are required');
+        homePage.monsterCard.should('not.exist');
+    });
 
-    homePage.createNewMonster(newMonster);
-    homePage.requiredFieldsAlert.should(
-      "contain.text",
-      "All fields are required"
-    );
-    homePage.monsterCard.should("not.exist");
-  });
-  it("should show an alert when monster doesn't have defense", () => {
-    const newMonster = { ...monster, defense: "" };
+    it("should show an alert when monster doesn't have attack", () => {
+        const newMonster = {...monster, attack: ''};
 
-    homePage.createNewMonster(newMonster);
-    homePage.requiredFieldsAlert.should(
-      "contain.text",
-      "All fields are required"
-    );
-    homePage.monsterCard.should("not.exist");
-  });
-  it("should show an alert when monster doesn't have speed", () => {
-    const newMonster = { ...monster, speed: "" };
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
+        homePage.requiredFieldsAlert.should('contain.text', 'All fields are required');
+        homePage.monsterCard.should('not.exist');
+    });
+    it("should show an alert when monster doesn't have defense", () => {
+        const newMonster = {...monster, defense: ''};
 
-    homePage.createNewMonster(newMonster);
-    homePage.requiredFieldsAlert.should(
-      "contain.text",
-      "All fields are required"
-    );
-    homePage.monsterCard.should("not.exist");
-  });
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
+        homePage.requiredFieldsAlert.should('contain.text', 'All fields are required');
+        homePage.monsterCard.should('not.exist');
+    });
+    it("should show an alert when monster doesn't have speed", () => {
+        const newMonster = {...monster, speed: ''};
+
+        homePage.fillMonsterForm(newMonster);
+        homePage.createMonster();
+        homePage.requiredFieldsAlert.should('contain.text', 'All fields are required');
+        homePage.monsterCard.should('not.exist');
+    });
+
+    it('should show an alert when monster has attributes equal 0', () => {
+        const newMonster = {...defaultMonster};
+
+        homePage.fillMonsterForm(newMonster);
+        homePage.requiredFieldsAlert.should('contain.text', 'Please enter a valid number');
+        homePage.monsterCard.should('not.exist');
+    });
 });
