@@ -31,14 +31,17 @@ export class HomePage extends BasePage {
   get monsterCard() {
     return cy.get('[data-testid="monster-card"]');
   }
+  get requiredFieldsAlert() {
+    return cy.get('[data-testid="alert-required-fields"]');
+  }
 
   createNewMonster(monster) {
     this.monsterFigure("1").click();
-    this.monsterNameInput.type(monster.name);
-    this.monsterHpValueInput.type(monster.hp);
-    this.monsterAttackValueInput.type(monster.attack);
-    this.monsterDefenseValueInput.type(monster.defense);
-    this.monsterSpeedValueInput.type(monster.speed);
+    if(monster.name) this.monsterNameInput.type(monster.name);
+    if(monster.hp) this.monsterHpValueInput.type(monster.hp);
+    if(monster.attack) this.monsterAttackValueInput.type(monster.attack);
+    if(monster.defense) this.monsterDefenseValueInput.type(monster.defense);
+    if(monster.speed) this.monsterSpeedValueInput.type(monster.speed);
     this.createMonsterButton.click();
   }
 
