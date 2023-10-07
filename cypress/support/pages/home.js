@@ -7,6 +7,9 @@ export class HomePage extends BasePage {
     get monsterNameInput() {
         return cy.get('[data-testid="monster-name"]');
     }
+    get favoriteMonsterIcon() {
+        return cy.get('[data-testid="favorite-btn"]');
+    }
     get monsterHpValueInput() {
         return cy.get('[data-testid="hp-value"]');
     }
@@ -49,6 +52,9 @@ export class HomePage extends BasePage {
     }
     deleteMonster() {
         this.deleteMonsterButton.click();
+    }
+    favoriteMonster() {
+        this.favoriteMonsterIcon.click();
     }
     assertMonsterAdded() {
         this.dynamicAlertTitle.should('have.text', 'Your Monsters');
