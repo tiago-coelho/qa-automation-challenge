@@ -7,7 +7,7 @@ describe('Monster App Tests', () => {
         homePage.open('/');
     });
 
-    it.only('should successfully add a new monster', () => {
+    it('should successfully add a new monster', () => {
         const newMonster = {...monster};
         monsterService.createMonster(newMonster);
         homePage.assertMonsterAdded();
