@@ -1,13 +1,14 @@
 /// <reference types="cypress" />
 
 import {homePage} from '../../support/pages/home';
-import monster from '../../src/api/payloads/monsters-payload';
+import { monster } from '../../src/api/payloads/monsters-payload';
+import {monsterService} from '../../src/api/monsters';
 
 describe('delete monsters', () => {
     beforeEach(() => {
+        const newMonster = {...monster};
         homePage.open('/');
-        homePage.fillMonsterForm(monster);
-        homePage.createMonster();
+        monsterService.createMonster(newMonster);
         homePage.assertMonsterAdded();
     });
 
